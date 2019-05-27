@@ -21,7 +21,7 @@ public class GoodsController {
 	@Autowired
 	private GoodsService service;
 	
-	@RequestMapping(method=RequestMethod.GET,value="/{goodsId}")
+	@RequestMapping(method=RequestMethod.GET,value="/{goodsId}",produces="application/json")
 	public String get(@PathVariable("goodsId")int goodsId){
 		return JSON.toJSONString(service.get(goodsId));
 	}
