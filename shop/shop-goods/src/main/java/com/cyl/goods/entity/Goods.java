@@ -28,7 +28,7 @@ public class Goods {
 	private String name;
 	@Column
 	private BigDecimal price;
-	@ManyToOne(fetch=FetchType.EAGER,cascade=CascadeType.REMOVE)
+	@ManyToOne(fetch=FetchType.LAZY,cascade=CascadeType.REMOVE)
 	@JoinColumn(name="provider_id")
 	private Provider provider;
 	@Column
