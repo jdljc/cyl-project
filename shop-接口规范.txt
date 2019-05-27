@@ -1,0 +1,14 @@
+接口使用restful风格，路径中均为名词
+基础路径：IP+Port/shop-模块名称/
+
+查询：GET请求  如：基础路径/user/1  查询id为1的用户
+                               基础路径/user/user-all 查询所有用户
+
+添加：POST请求 如：基础路径/user  请求体：{"name":"cyl","age":22} 
+
+修改：PUT请求 如：基础路径/user 请求体：{"id":1,"name":"CYL"} 修改id为1的用户
+
+删除: DELETE请求 如：基础路径/user 请求体：{"id":1} 删除id为1的用户
+
+
+
