@@ -25,7 +25,6 @@ public class PageItem {
 		this.properties = properties;
 	}
 
-
 	public int getPage() {
 		return page;
 	}

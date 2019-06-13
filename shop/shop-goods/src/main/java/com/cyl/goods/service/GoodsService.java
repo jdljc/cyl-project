@@ -5,6 +5,7 @@ package com.cyl.goods.service;
 *@time 下午10:15:04
 */
 
+import java.sql.Date;
 import java.util.List;
 import java.util.Optional;
 
@@ -36,6 +37,7 @@ public class GoodsService {
 	}
 	
 	public Goods add(Goods goods){
+		goods.setRegistry(new Date(System.currentTimeMillis()));
 		return dao.save(goods);
 	}
 	
