@@ -1,0 +1,18 @@
+server:
+  port: 8888
+spring:
+  datasource:
+    driver-class-name: com.mysql.jdbc.Driver
+    url: jdbc:mysql://localhost:3306/shop-user?characterEncoding=utf-8
+    username: root
+    password: open123
+    ##url: jdbc:mysql://rm-2ze411ppjhei5n632.mysql.rds.aliyuncs.com:3306/shop-user?characterEncoding=utf-8
+    ##username: cyl_java_db
+    ##password: 1472583690cylCYL
+  jpa:
+    hibernate:
+      ddl-auto: update
+    show-sql: true
+  redis:    database: 0
+  jmx:
+    enabled: false

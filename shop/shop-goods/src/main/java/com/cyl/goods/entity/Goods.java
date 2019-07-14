@@ -1,6 +1,7 @@
 package com.cyl.goods.entity;
 
 import java.math.BigDecimal;
+import java.sql.Date;
 
 import javax.persistence.CascadeType;
 import javax.persistence.Column;
@@ -28,11 +29,13 @@ public class Goods {
 	private String name;
 	@Column
 	private BigDecimal price;
-	@ManyToOne(fetch=FetchType.EAGER,cascade=CascadeType.REMOVE)
+	@ManyToOne(fetch=FetchType.LAZY,cascade=CascadeType.REMOVE)
 	@JoinColumn(name="provider_id")
 	private Provider provider;
 	@Column
 	private String state;
+	@Column
+	private Date registry;
 	public int getId() {
 		return id;
 	}
@@ -62,5 +65,11 @@ public class Goods {
 	}
 	public void setState(String state) {
 		this.state = state;
+	}
+	public Date getRegistry() {
+		return registry;
+	}
+	public void setRegistry(Date registry) {
+		this.registry = registry;
 	}
 }
