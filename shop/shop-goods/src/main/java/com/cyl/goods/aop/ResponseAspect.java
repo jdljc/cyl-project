@@ -6,6 +6,7 @@ import java.lang.reflect.Method;
 
 import org.aspectj.lang.ProceedingJoinPoint;
 import org.aspectj.lang.annotation.Around;
+import org.aspectj.lang.annotation.Aspect;
 import org.aspectj.lang.annotation.Pointcut;
 import org.springframework.core.annotation.Order;
 import org.springframework.stereotype.Component;
@@ -21,6 +22,7 @@ import com.cyl.common.vo.Request;
 *@date 2019年5月5日
 *@time 下午6:15:10
 */
+@Aspect
 @Order(0)
 @Component
 public class ResponseAspect {

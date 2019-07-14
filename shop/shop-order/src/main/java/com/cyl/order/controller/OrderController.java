@@ -10,6 +10,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RestController;
 
+import com.alibaba.fastjson.JSON;
 import com.cyl.common.annotation.log.Log;
 import com.cyl.common.annotation.response.Msg;
 import com.cyl.common.annotation.response.Response;
@@ -17,7 +18,6 @@ import com.cyl.common.annotation.role.Role;
 import com.cyl.common.vo.Request;
 import com.cyl.order.entity.Order;
 import com.cyl.order.service.OrderService;
-import com.fasterxml.jackson.databind.ObjectMapper;
 
 /**
 *@author chen
@@ -36,7 +36,7 @@ public class OrderController {
 	@RequestMapping(method=RequestMethod.GET,value="{orderId}",produces="application/json")
 	@Response(msg=@Msg(err="no result!"))
 	public String get(@PathVariable("orderId")Long orderId) throws Exception{
-		return new ObjectMapper().writeValueAsString(service.get(orderId));
+		return JSON.toJSONString(service.get(orderId));
 	}
 	
 	@Log
