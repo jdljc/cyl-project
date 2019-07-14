@@ -13,6 +13,7 @@ import com.cyl.common.annotation.response.Msg;
 import com.cyl.common.annotation.response.Response;
 import com.cyl.common.annotation.role.Role;
 import com.cyl.common.vo.Plugin;
+import com.cyl.plugin.PluginFactory;
 
 /**
  * @author 25280
@@ -40,7 +41,7 @@ public class PluginController {
 		return JSON.toJSONString(factory.getAll()); 
 	}
 
-	//@Response(msg=@Msg(err="no such plugin!"))
+	@Response(msg=@Msg(err="no such plugin!"))
 	@RequestMapping(method=RequestMethod.PUT,produces="application/json")
 	public String switchState(@RequestBody Plugin plugin) {
 		return JSON.toJSONString(factory.switchState(plugin.getId())); 

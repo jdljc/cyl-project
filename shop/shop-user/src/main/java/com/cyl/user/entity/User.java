@@ -28,13 +28,13 @@ public class User {
 	@Column
 	private String name;
 	@Column
-	private transient String password;
+	private String password;
 	@Column
 	private String email;
 	@Column
 	private String description;
 	@Column
-	private transient String salty;
+	private String salty;
 	@JoinColumn(name="role_id")
 	@ManyToMany(fetch=FetchType.LAZY,cascade=CascadeType.REFRESH)
 	private List<Role> roles;

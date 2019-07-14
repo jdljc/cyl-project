@@ -12,6 +12,7 @@ import org.springframework.web.bind.annotation.RestController;
 
 import com.alibaba.fastjson.JSON;
 import com.cyl.common.annotation.log.Log;
+import com.cyl.common.annotation.response.Code;
 import com.cyl.common.annotation.response.Msg;
 import com.cyl.common.annotation.response.Response;
 import com.cyl.common.annotation.role.Role;
@@ -33,8 +34,8 @@ public class OrderController {
 	
 	@Log
 	@Role
-	@RequestMapping(method=RequestMethod.GET,value="{orderId}",produces="application/json")
-	@Response(msg=@Msg(err="no result!"))
+	@RequestMapping(method=RequestMethod.GET,value="/{orderId}",produces="application/json")
+	@Response(msg=@Msg(err="no result!"),code=@Code(err=HttpStatus.NO_CONTENT))
 	public String get(@PathVariable("orderId")Long orderId) throws Exception{
 		return JSON.toJSONString(service.get(orderId));
 	}
@@ -42,6 +43,7 @@ public class OrderController {
 	@Log
 	@Role
 	@RequestMapping(method=RequestMethod.POST)
+	@Response(msg=@Msg(suc="save success",err="save failure!"),code=@Code(suc=HttpStatus.CREATED))
 	public Callable<Request> put(@RequestBody Order order) throws Exception{
 		return new Callable<Request>() {
 
@@ -71,9 +73,9 @@ public class OrderController {
 	
 	@Log
 	@Role
-	@RequestMapping(method=RequestMethod.DELETE,produces="application/json")
+	@RequestMapping(method=RequestMethod.DELETE,value="/{orderId}",produces="application/json")
 	@Response(msg=@Msg(suc="delete success!"))
-	public String delete(@RequestBody Order order){
-		return service.delete(order)+"";
+	public String delete(@PathVariable Long orderId,@RequestBody Order order){
+		return service.delete(orderId,order)+"";
 	}
 }

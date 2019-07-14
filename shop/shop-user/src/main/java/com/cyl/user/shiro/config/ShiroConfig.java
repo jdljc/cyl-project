@@ -1,9 +1,13 @@
 package com.cyl.user.shiro.config;
 
+import java.util.Map;
+
 import org.apache.shiro.SecurityUtils;
+import org.apache.shiro.authc.credential.HashedCredentialsMatcher;
 import org.apache.shiro.session.mgt.eis.EnterpriseCacheSessionDAO;
 import org.apache.shiro.spring.web.ShiroFilterFactoryBean;
 import org.apache.shiro.web.mgt.DefaultWebSecurityManager;
+import org.apache.shiro.web.mgt.DefaultWebSubjectFactory;
 import org.apache.shiro.web.session.mgt.DefaultWebSessionManager;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
@@ -30,8 +34,6 @@ public class ShiroConfig {
 	private String loginUrl;
 	@Value("${shop.shiro.filterChainDefinitions}")
 	private String filterChainDefinitions;
-	@Autowired
-	private ServerFormAuthenticationFilter serverFormAuthenticationFilter;
 	
 	@Bean
 	public EnterpriseCacheSessionDAO enterpriseCacheSessionDAO() {
@@ -44,10 +46,25 @@ public class ShiroConfig {
 	}
 	
 	@Bean
+	public DefaultWebSubjectFactory defaultWebSubjectFactory() {
+		return new DefaultWebSubjectFactory();
+	}
+	
+	public HashedCredentialsMatcher hashedCredentialsMatcher() {
+		HashedCredentialsMatcher matcher = new HashedCredentialsMatcher();
+		matcher.setHashAlgorithmName("MD5");
+		matcher.setHashIterations(2);
+		matcher.setStoredCredentialsHexEncoded(true);
+		return matcher;
+	}
+	
+	@Bean
 	public DefaultWebSecurityManager defaultSecurityManager() {
+		userRealm.setCredentialsMatcher(hashedCredentialsMatcher());
 		DefaultWebSecurityManager defaultSecurityManager = new DefaultWebSecurityManager(userRealm);
-		SecurityUtils.setSecurityManager(defaultSecurityManager);
+		defaultSecurityManager.setSubjectFactory(defaultWebSubjectFactory());
 		defaultSecurityManager.setCacheManager(shiroCacheManager());
+		SecurityUtils.setSecurityManager(defaultSecurityManager);
 		return defaultSecurityManager;
 	}
 	
@@ -62,9 +79,13 @@ public class ShiroConfig {
 	public ShiroFilterFactoryBean shiroFilterFactoryBean() {
 		ShiroFilterFactoryBean factoryBean = new ShiroFilterFactoryBean();
 		factoryBean.setLoginUrl(loginUrl);
-		factoryBean.setFilterChainDefinitions(filterChainDefinitions);
+		//factoryBean.setFilterChainDefinitions(filterChainDefinitions);
 		factoryBean.setSecurityManager(defaultSecurityManager());
-		factoryBean.getFilters().put("authc", serverFormAuthenticationFilter);
+		
+		factoryBean.getFilters().put("authc", new ServerFormAuthenticationFilter());
+		Map<String, String> map = factoryBean.getFilterChainDefinitionMap();
+		map.put("/login/do", "anon");
+		map.put("/**", "authc");
 		return factoryBean;
 	}
 }

@@ -20,6 +20,7 @@ public class ServerFormAuthenticationFilter extends FormAuthenticationFilter {
 
 	@Override
 	protected void issueSuccessRedirect(ServletRequest request, ServletResponse response) throws Exception {
+		System.out.println("into issueSuccessRedirect");
 		String fallbackurl = (String) getSubject(request, response).getSession().getAttribute("authc.fallbackurl");
 		System.out.println(fallbackurl);
 		if(StringUtils.isEmpty(fallbackurl)) fallbackurl = getSuccessUrl();

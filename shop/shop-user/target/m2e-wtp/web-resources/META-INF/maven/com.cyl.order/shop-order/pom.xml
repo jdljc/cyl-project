@@ -9,10 +9,10 @@
 		<artifactId>shop</artifactId>
 		<version>0.1</version>
 	</parent>
-	<groupId>com.cyl.user</groupId>
-	<artifactId>shop-user</artifactId>
+	<groupId>com.cyl.order</groupId>
+	<artifactId>shop-order</artifactId>
 	<packaging>war</packaging>
-	<name>shop-user</name>
+	<name>shop-order</name>
 	<url>http://maven.apache.org</url>
 	<properties>
 		<project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
@@ -20,12 +20,8 @@
 	<dependencies>
 		<dependency>
 			<groupId>org.apache.shiro</groupId>
-			<artifactId>shiro-ehcache</artifactId>
-			<version>1.2.2</version>
-		</dependency>
-		<dependency>
-			<groupId>org.springframework.boot</groupId>
-			<artifactId>spring-boot-starter-data-redis</artifactId>
+			<artifactId>shiro-spring</artifactId>
+			<version>1.4.0</version>
 		</dependency>
 		<dependency>
 			<groupId>com.cyl.common</groupId>
@@ -33,19 +29,13 @@
 			<version>0.1</version>
 		</dependency>
 		<dependency>
+			<groupId>org.springframework.boot</groupId>
+			<artifactId>spring-boot-starter-data-redis</artifactId>
+		</dependency>
+		<dependency>
 			<groupId>mysql</groupId>
 			<artifactId>mysql-connector-java</artifactId>
 			<scope>runtime</scope>
-		</dependency>
-		<dependency>
-			<groupId>org.apache.shiro</groupId>
-			<artifactId>shiro-spring</artifactId>
-			<version>1.2.4</version>
-		</dependency>
-		<dependency>
-			<groupId>junit</groupId>
-			<artifactId>junit</artifactId>
-			<scope>test</scope>
 		</dependency>
 	</dependencies>
 

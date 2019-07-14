@@ -37,7 +37,6 @@ public class UserRealm extends AuthorizingRealm{
 
 	@Override
 	protected AuthorizationInfo doGetAuthorizationInfo(PrincipalCollection principals) {
-		System.out.println("-----get user roles and permission info-----");
 		String name = (String) principals.getPrimaryPrincipal();
 		SimpleAuthorizationInfo authorizationInfo = new SimpleAuthorizationInfo();
 		User user = userService.findByName(name);
@@ -56,7 +55,6 @@ public class UserRealm extends AuthorizingRealm{
 
 	@Override
 	protected AuthenticationInfo doGetAuthenticationInfo(AuthenticationToken token) throws AuthenticationException {
-		System.out.println("-----return authentication info-----");
 		if(token==null) return null;
 		String name = (String) token.getPrincipal();
 		User user = userService.findByName(name);

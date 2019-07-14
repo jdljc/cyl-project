@@ -4,10 +4,11 @@ import java.sql.Date;
 import java.util.Optional;
 import java.util.UUID;
 
+import org.apache.shiro.crypto.hash.SimpleHash;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
-import com.cyl.common.util.MD5Util;
+import com.cyl.common.exception.AccountAlreadyExistException;
 import com.cyl.user.dao.UserDao;
 import com.cyl.user.entity.User;
 
@@ -33,10 +34,10 @@ public class UserService {
 	
 	public User save(User user){
 		if(dao.findByName(user.getName())!=null)
-			return null;
+			throw new AccountAlreadyExistException();
 		user.setRegistry(new Date(System.currentTimeMillis()));
 		String salty = UUID.randomUUID().toString();
-		String password = MD5Util.getInstance().getMD5(user.getPassword()+salty);
+		String password = new SimpleHash("MD5",user.getPassword(),salty,2).toString();
 		user.setSalty(salty);
 		user.setPassword(password);
 		return dao.save(user);
@@ -46,9 +47,10 @@ public class UserService {
 		User old = dao.getOne(user.getId());
 		if(old!=null) {
 			if(user.getPassword()!=null) {
-				String salty = old.getSalty();
-				String password = MD5Util.getInstance().getMD5(user.getPassword()+salty);
+				String salty = UUID.randomUUID().toString();
+				String password = new SimpleHash("MD5",user.getPassword(),salty,2).toString();
 				user.setPassword(password);
+				user.setSalty(salty);
 			}
 			return dao.save(user);
 		}

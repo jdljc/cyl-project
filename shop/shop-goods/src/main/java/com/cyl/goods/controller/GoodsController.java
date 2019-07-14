@@ -1,6 +1,7 @@
 package com.cyl.goods.controller;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -9,6 +10,8 @@ import org.springframework.web.bind.annotation.RestController;
 
 import com.alibaba.fastjson.JSON;
 import com.alibaba.fastjson.serializer.SerializerFeature;
+import com.cyl.common.annotation.log.Log;
+import com.cyl.common.annotation.response.Code;
 import com.cyl.common.annotation.response.Msg;
 import com.cyl.common.annotation.response.Response;
 import com.cyl.common.vo.PageItem;
@@ -27,9 +30,10 @@ public class GoodsController {
 	@Autowired
 	private GoodsService service;
 	
-	@Response(msg=@Msg(err="no result!"))
+	@Log
+	//@Response(msg=@Msg(err="no result!"),code=@Code(err=HttpStatus.NOT_FOUND))
 	@RequestMapping(method=RequestMethod.GET,value="/{goodsId}",produces="application/json")
-	public String get(@PathVariable("goodsId")int goodsId){
+	public String get(@PathVariable("goodsId")Integer goodsId){
 		return JSON.toJSONString(service.get(goodsId));
 	}
 	
@@ -39,7 +43,7 @@ public class GoodsController {
 		return JSON.toJSONString(service.getGoodies(pageItem),SerializerFeature.DisableCircularReferenceDetect);
 	}
 	
-	@Response(msg=@Msg(err="no result!"))
+	@Response(msg=@Msg(err="no result!"),code=@Code(err=HttpStatus.NOT_FOUND))
 	@RequestMapping(method=RequestMethod.GET,value="/goods-all",produces="application/json")
 	public String getAll() {
 		return JSON.toJSONString(service.getAll(),SerializerFeature.DisableCircularReferenceDetect);
@@ -51,15 +55,15 @@ public class GoodsController {
 		return JSON.toJSONString(service.add(goods));
 	}
 	
-	@Response(msg=@Msg(suc="update success!",err="update failure!"))
-	@RequestMapping(method=RequestMethod.PUT,produces="application/json")
-	public String put(@RequestBody Goods goods){
-		return JSON.toJSONString(service.update(goods));
+	@Response(msg=@Msg(suc="update success!",err="update failure!"),showErr=true)
+	@RequestMapping(method=RequestMethod.PUT,value="/{id}",produces="application/json")
+	public String put(@PathVariable("id")Integer id,@RequestBody Goods goods){
+		return JSON.toJSONString(service.update(id,goods));
 	}
 	
 	@Response(msg=@Msg(suc="delete success!",err="delete failure!"))
-	@RequestMapping(method=RequestMethod.DELETE,produces="application/json")
-	public String delete(@RequestBody Goods goods){
-		return JSON.toJSONString(service.delete(goods));
+	@RequestMapping(method=RequestMethod.DELETE,value="/{id}",produces="application/json")
+	public String delete(@PathVariable Integer id,@RequestBody Goods goods){
+		return JSON.toJSONString(service.delete(id,goods));
 	}
 }

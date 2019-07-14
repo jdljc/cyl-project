@@ -13,6 +13,8 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.stereotype.Service;
 
+import com.cyl.common.exception.BadRequestException;
+import com.cyl.common.exception.UnknowException;
 import com.cyl.common.vo.PageItem;
 import com.cyl.goods.dao.GoodsDao;
 import com.cyl.goods.entity.Goods;
@@ -41,16 +43,21 @@ public class GoodsService {
 		return dao.save(goods);
 	}
 	
-	public Goods update(Goods goods){
+	public Goods update(Integer id,Goods goods){
+		if(id==null||id.intValue()==0)
+			throw new BadRequestException().put("id", "this field could not be null");
 		return dao.save(goods);
 	}
 	
-	public boolean delete(Goods goods){
+	public boolean delete(Integer id,Goods goods){
+		if(id==null||id.intValue()==0)
+			throw new BadRequestException().put("id", "this field could not be null");
 		try {
+			goods.setId(id);
 		    dao.delete(goods);
 		    return true;
 		} catch (Exception e) {
-			return false;
+		    throw new UnknowException("error occured while delete operation!").put(goods.getId()+"", "failure to delete this goods!");
 		}
 	}
 }

@@ -1,7 +1,7 @@
 Manifest-Version: 1.0
 Implementation-Title: shop-order
 Implementation-Version: 0.1
-Built-By: 25280
+Built-By: cyl
 Implementation-Vendor-Id: com.cyl.order
 Build-Jdk: 1.8.0_111
 Implementation-URL: http://maven.apache.org

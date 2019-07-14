@@ -16,4 +16,5 @@ public @interface Response {
 
 	Msg msg() default @Msg;
 	Code code() default @Code;
+	boolean showErr() default false;
 }

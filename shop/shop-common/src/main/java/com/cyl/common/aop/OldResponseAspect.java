@@ -1,4 +1,4 @@
-package com.cyl.goods.aop;
+package com.cyl.common.aop;
 
 import static com.cyl.common.util.MethodUtil.getMethod;
 
@@ -23,9 +23,9 @@ import com.cyl.common.vo.Request;
 *@time 下午6:15:10
 */
 @Aspect
-@Order(0)
+@Order(1)
 @Component
-public class ResponseAspect {
+public class OldResponseAspect {
 
 	@Pointcut(value="execution(public * com.cyl.*.controller.*.*(..))")
 	public void pointcut() {}
