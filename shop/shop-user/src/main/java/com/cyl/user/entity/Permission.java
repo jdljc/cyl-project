@@ -23,6 +23,12 @@ public class Permission {
 	@Column
 	private String name;
 	@Column
+	private String appKey;
+	@Column
+	private String type;
+	@Column
+	private int level;
+	@Column
 	private String description;
 	@Column
 	private Date registry;
@@ -38,6 +44,24 @@ public class Permission {
 	}
 	public void setName(String name) {
 		this.name = name;
+	}
+	public String getAppKey() {
+		return appKey;
+	}
+	public void setAppKey(String appKey) {
+		this.appKey = appKey;
+	}
+	public String getType() {
+		return type;
+	}
+	public void setType(String type) {
+		this.type = type;
+	}
+	public int getLevel() {
+		return level;
+	}
+	public void setLevel(int level) {
+		this.level = level;
 	}
 	public String getDescription() {
 		return description;

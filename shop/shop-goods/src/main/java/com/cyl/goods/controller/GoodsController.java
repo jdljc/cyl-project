@@ -14,6 +14,7 @@ import com.cyl.common.annotation.log.Log;
 import com.cyl.common.annotation.response.Code;
 import com.cyl.common.annotation.response.Msg;
 import com.cyl.common.annotation.response.Response;
+import com.cyl.common.annotation.role.Role;
 import com.cyl.common.vo.PageItem;
 import com.cyl.goods.entity.Goods;
 import com.cyl.goods.service.GoodsService;
@@ -31,12 +32,15 @@ public class GoodsController {
 	private GoodsService service;
 	
 	@Log
-	//@Response(msg=@Msg(err="no result!"),code=@Code(err=HttpStatus.NOT_FOUND))
+	@Role
+	@Response(msg=@Msg(err="no result!"),code=@Code(err=HttpStatus.NOT_FOUND))
 	@RequestMapping(method=RequestMethod.GET,value="/{goodsId}",produces="application/json")
 	public String get(@PathVariable("goodsId")Integer goodsId){
 		return JSON.toJSONString(service.get(goodsId));
 	}
 	
+	@Log
+	@Role
 	@Response(msg=@Msg(err="no result!"))
 	@RequestMapping(method=RequestMethod.GET,value="/goodies",produces="application/json")
 	public String getGoodies(@RequestBody PageItem pageItem) {
@@ -61,6 +65,7 @@ public class GoodsController {
 		return JSON.toJSONString(service.update(id,goods));
 	}
 	
+	@Role
 	@Response(msg=@Msg(suc="delete success!",err="delete failure!"))
 	@RequestMapping(method=RequestMethod.DELETE,value="/{id}",produces="application/json")
 	public String delete(@PathVariable Integer id,@RequestBody Goods goods){

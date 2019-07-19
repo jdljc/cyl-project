@@ -4,10 +4,11 @@ import java.util.Map;
 
 import org.apache.shiro.SecurityUtils;
 import org.apache.shiro.authc.credential.HashedCredentialsMatcher;
-import org.apache.shiro.session.mgt.eis.EnterpriseCacheSessionDAO;
 import org.apache.shiro.spring.web.ShiroFilterFactoryBean;
 import org.apache.shiro.web.mgt.DefaultWebSecurityManager;
 import org.apache.shiro.web.mgt.DefaultWebSubjectFactory;
+import org.apache.shiro.web.servlet.Cookie;
+import org.apache.shiro.web.servlet.SimpleCookie;
 import org.apache.shiro.web.session.mgt.DefaultWebSessionManager;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
@@ -15,6 +16,7 @@ import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.context.annotation.PropertySource;
 
+import com.cyl.user.dao.SessionDao;
 import com.cyl.user.shiro.cache.ShiroCacheManager;
 import com.cyl.user.shiro.filter.ServerFormAuthenticationFilter;
 import com.cyl.user.shiro.realm.UserRealm;
@@ -36,8 +38,10 @@ public class ShiroConfig {
 	private String filterChainDefinitions;
 	
 	@Bean
-	public EnterpriseCacheSessionDAO enterpriseCacheSessionDAO() {
-		return new EnterpriseCacheSessionDAO();
+	public SessionDao sessionDao() {
+		SessionDao dao = new SessionDao();
+		dao.setCacheManager(shiroCacheManager());
+		return dao;
 	}
 	
 	@Bean
@@ -68,10 +72,17 @@ public class ShiroConfig {
 		return defaultSecurityManager;
 	}
 	
+	public Cookie cookie() {
+		Cookie cookie = new SimpleCookie();
+		cookie.setName(com.cyl.common.enums.Cookie.SESSIONID.sessionId());
+		return cookie;
+	}
+	
 	@Bean
 	public DefaultWebSessionManager defaultWebSessionManager() {
 		DefaultWebSessionManager sessionManager = new DefaultWebSessionManager();
-		sessionManager.setSessionDAO(enterpriseCacheSessionDAO());
+		sessionManager.setSessionDAO(sessionDao());
+		sessionManager.setSessionIdCookie(cookie());
 		return sessionManager;
 	}
 	
@@ -85,6 +96,10 @@ public class ShiroConfig {
 		factoryBean.getFilters().put("authc", new ServerFormAuthenticationFilter());
 		Map<String, String> map = factoryBean.getFilterChainDefinitionMap();
 		map.put("/login/do", "anon");
+		map.put("/login/go", "anon");
+		map.put("/register/go", "anon");
+		map.put("/register/do", "anon");
+		map.put("/authc/do", "anon");
 		map.put("/**", "authc");
 		return factoryBean;
 	}

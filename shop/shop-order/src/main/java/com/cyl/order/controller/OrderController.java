@@ -35,7 +35,7 @@ public class OrderController {
 	@Log
 	@Role
 	@RequestMapping(method=RequestMethod.GET,value="/{orderId}",produces="application/json")
-	@Response(msg=@Msg(err="no result!"),code=@Code(err=HttpStatus.NO_CONTENT))
+	@Response(msg=@Msg(err="no result!"),code=@Code(err=HttpStatus.NOT_FOUND))
 	public String get(@PathVariable("orderId")Long orderId) throws Exception{
 		return JSON.toJSONString(service.get(orderId));
 	}

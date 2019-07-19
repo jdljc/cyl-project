@@ -2,11 +2,9 @@ package com.cyl.user.shiro.filter;
 
 import javax.servlet.ServletRequest;
 import javax.servlet.ServletResponse;
-import javax.servlet.annotation.WebFilter;
 
 import org.apache.shiro.web.filter.authc.FormAuthenticationFilter;
 import org.apache.shiro.web.util.WebUtils;
-import org.springframework.stereotype.Component;
 import org.springframework.util.StringUtils;
 
 /**
@@ -14,8 +12,8 @@ import org.springframework.util.StringUtils;
 *@date 2019年6月1日
 *@time 下午5:44:01
 */
-@Component
-@WebFilter(urlPatterns="{/**}")
+/*@Component
+@WebFilter(urlPatterns="{/**}")*/
 public class ServerFormAuthenticationFilter extends FormAuthenticationFilter {
 
 	@Override

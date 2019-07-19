@@ -2,13 +2,13 @@ package com.cyl.user.service;
 
 import java.sql.Date;
 import java.util.Optional;
-import java.util.UUID;
 
 import org.apache.shiro.crypto.hash.SimpleHash;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import com.cyl.common.exception.AccountAlreadyExistException;
+import com.cyl.common.util.UUIDUtil;
 import com.cyl.user.dao.UserDao;
 import com.cyl.user.entity.User;
 
@@ -32,11 +32,15 @@ public class UserService {
 		return dao.findByName(name);
 	}
 	
+	public User findByEmail(String email) {
+		return dao.finByEmail(email);
+	}
+	
 	public User save(User user){
 		if(dao.findByName(user.getName())!=null)
 			throw new AccountAlreadyExistException();
 		user.setRegistry(new Date(System.currentTimeMillis()));
-		String salty = UUID.randomUUID().toString();
+		String salty = UUIDUtil.get();
 		String password = new SimpleHash("MD5",user.getPassword(),salty,2).toString();
 		user.setSalty(salty);
 		user.setPassword(password);
@@ -47,7 +51,7 @@ public class UserService {
 		User old = dao.getOne(user.getId());
 		if(old!=null) {
 			if(user.getPassword()!=null) {
-				String salty = UUID.randomUUID().toString();
+				String salty = UUIDUtil.get();
 				String password = new SimpleHash("MD5",user.getPassword(),salty,2).toString();
 				user.setPassword(password);
 				user.setSalty(salty);

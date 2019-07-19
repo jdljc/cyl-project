@@ -23,8 +23,17 @@ public class MethodUtil {
 		try {
 			method = clazz.getMethod(methodName, clzs);
 		} catch (Exception e) {
-			e.printStackTrace();
-			throw new NoSuchElementException("could not get such method!");
+			/** full match failed,then look up a method with same name. */
+			for(Method clzMethod:clazz.getMethods()) {
+				String name = clzMethod.getName();
+				if(name.equals(methodName)) {
+					method = clzMethod;
+					break;
+				}
+			}
+			if(method==null) {
+				throw new NoSuchElementException("could not get such method!");
+			}
 		}
 		return method;
 	}

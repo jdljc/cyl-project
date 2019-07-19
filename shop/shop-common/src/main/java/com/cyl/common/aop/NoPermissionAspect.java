@@ -8,8 +8,9 @@ import javax.servlet.http.HttpServletRequest;
 
 import org.aspectj.lang.ProceedingJoinPoint;
 import org.aspectj.lang.annotation.Around;
-//import org.aspectj.lang.annotation.Aspect;
 import org.aspectj.lang.annotation.Pointcut;
+import org.springframework.beans.factory.annotation.Value;
+import org.springframework.context.annotation.PropertySource;
 import org.springframework.core.annotation.Order;
 import org.springframework.stereotype.Component;
 import org.springframework.web.context.request.RequestAttributes;
@@ -24,12 +25,15 @@ import com.cyl.common.exception.NoPermissionException;
 *@date 2019年5月14日
 *@time 下午11:47:28
 */
-//@Aspect
 @Order(1)
 @Component
+@PropertySource(value="classpath:resource.properties")
 public class NoPermissionAspect {
 
-	@Pointcut(value="execution(public * com.cyl.order.controller.*.*(..))")
+	@Value("${authc.server}")
+	private String authcUrl;
+	
+	@Pointcut(value="execution(public * com.cyl.*.controller.*.*(..))")
 	public void pointcut() {}
 	
 	@Around(value = "pointcut()")
@@ -41,13 +45,13 @@ public class NoPermissionAspect {
         ServletRequestAttributes sra = (ServletRequestAttributes) ra;
         HttpServletRequest request = sra.getRequest();
         String url = request.getRequestURL().toString();
-        if(!permission(1, url)) {
+        if(!permission(url)) {
         	throw new NoPermissionException();
         }
         return jp.proceed();
 	}
 	
-	private boolean permission(int userId,String url) {
+	private boolean permission(String url) {
 		return true;
 	}
 }

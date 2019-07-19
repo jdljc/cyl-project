@@ -9,7 +9,9 @@ import org.apache.shiro.cache.CacheManager;
 import org.apache.shiro.cache.MapCache;
 import org.apache.shiro.session.Session;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.data.redis.core.RedisTemplate;
+
+import com.cyl.common.util.PropertyUtil;
+import com.cyl.user.dao.SessionDao;
 
 /**
 *@author 25280
@@ -19,14 +21,17 @@ import org.springframework.data.redis.core.RedisTemplate;
 public class ShiroCacheManager implements CacheManager{
 	
 	@Autowired
-	private RedisTemplate<String, Object> template;
+	private SessionDao dao;
+	
+	private static final String key = PropertyUtil.getProperties("cyl.appKey", "resource.properties");
 	
 	@Override
 	@SuppressWarnings("unchecked")
 	public <K, V> Cache<K, V> getCache(String name) throws CacheException {
+		System.out.println("getCache---");
 		MapCache<Serializable, Session> cache = new MapCache<>(name, new ConcurrentHashMap<Serializable, Session>());
-		Object o = template.opsForValue().get(name);
-		if(o!=null) cache.put(name, (Session)template.opsForValue().get(name));
+		Session session = dao.get(key, name);
+		if(session!=null) cache.put(name, session);
 		return (Cache<K, V>) cache;
 	}
 }

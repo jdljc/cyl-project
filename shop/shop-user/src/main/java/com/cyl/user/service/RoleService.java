@@ -1,6 +1,7 @@
 package com.cyl.user.service;
 
 import java.sql.Date;
+import java.util.List;
 import java.util.Optional;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -23,6 +24,10 @@ public class RoleService {
 	public Role get(int roleId) {
 		Optional<Role> optional = dao.findById(roleId);
 		return optional.isPresent()?optional.get():null;
+	}
+	
+	public List<Role> getByPermissionName(String appKey,String permissionName,String methodType){
+		return dao.getByPermissionName(appKey,permissionName,methodType);
 	}
 	
 	public Role save(Role role) {

@@ -1,5 +1,7 @@
 package com.cyl.order.plugin;
 
+import javax.annotation.PostConstruct;
+
 import org.springframework.beans.factory.annotation.Autowired; 
 import org.springframework.web.bind.annotation.PathVariable; 
 import org.springframework.web.bind.annotation.RequestBody; 
@@ -45,5 +47,10 @@ public class PluginController {
 	@RequestMapping(method=RequestMethod.PUT,produces="application/json")
 	public String switchState(@RequestBody Plugin plugin) {
 		return JSON.toJSONString(factory.switchState(plugin.getId())); 
+	} 
+	
+	@PostConstruct
+	public void refresh() {
+		factory.refresh();
 	} 
 }

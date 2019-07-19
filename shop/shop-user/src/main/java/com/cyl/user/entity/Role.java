@@ -30,6 +30,8 @@ public class Role {
 	@Column
 	private String description;
 	@Column
+	private Integer level;
+	@Column
 	private Date registry;
 	@JoinColumn(name="permission_id")
 	@ManyToMany(fetch=FetchType.LAZY,cascade=CascadeType.REFRESH)
@@ -52,6 +54,12 @@ public class Role {
 	}
 	public void setDescription(String description) {
 		this.description = description;
+	}
+	public Integer getLevel() {
+		return level;
+	}
+	public void setLevel(Integer level) {
+		this.level = level;
 	}
 	public Date getRegistry() {
 		return registry;

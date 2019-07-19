@@ -28,7 +28,7 @@ public class UserController {
 	private UserService service;
 	
 	@Response
-	@RequestMapping(method=RequestMethod.GET,value="{/userId}",produces="application/json")
+	@RequestMapping(method=RequestMethod.GET,value="/{userId}",produces="application/json")
 	public String get(@PathVariable("userId") long userId) {
 		return JSON.toJSONString(service.get(userId));
 	}
@@ -39,6 +39,12 @@ public class UserController {
 		return JSON.toJSONString(service.findByName(user.getName()));
 	}
 	
+	
+	public String findByEmail(@RequestBody User user) {
+		return JSON.toJSONString(service.findByEmail(user.getEmail()));
+	}
+	
+	@Role
 	@Response(msg=@Msg(err="name is already in use!"))
 	@RequestMapping(method=RequestMethod.POST,produces="application/json")
 	public String save(@RequestBody User user){

@@ -7,6 +7,9 @@ import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseBody;
 
+import com.cyl.common.annotation.log.Log;
+import com.cyl.common.annotation.response.Response;
+
 /**
 *@author 25280
 *@date 2019年6月3日
@@ -21,6 +24,8 @@ public class LoginController {
 		return "login";
 	}
 	
+	@Log
+	@Response
 	@ResponseBody
 	@RequestMapping("/do")
 	public String doLogin(String name,String password) {
@@ -31,7 +36,6 @@ public class LoginController {
 			subject.login(token);
 			return "login success";
 		} catch (Exception e) {
-			System.out.println("login error");
 			e.printStackTrace();
 			return "login failure";
 		}

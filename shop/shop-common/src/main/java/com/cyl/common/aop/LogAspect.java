@@ -51,13 +51,13 @@ public class LogAspect {
 	@AfterThrowing(pointcut="pointcut()",throwing="ex")
 	public void afterThrowing(JoinPoint jp,Throwable ex) {
 		Method method = getMethod(jp);
-		log(method,LogLevel.ERROR,"traceId:["+TraceUtil.get()+"] "+"error   :"+method.getDeclaringClass().getName()+"."+method.getName()+JSON.toJSONString(jp.getArgs())+" coused by:"+ex.getMessage());
+		StackTraceElement element = ex.getStackTrace()[0];
+		log(method,LogLevel.ERROR,"traceId:["+TraceUtil.get()+"] "+"error   :"+method.getDeclaringClass().getName()+"."+method.getName()+JSON.toJSONString(jp.getArgs())+" : in "+element.getClassName()+",at line: "+element.getLineNumber()+". coused by:"+ex.getMessage());
 	}
 	
 	private void log(Method method,LogLevel level,String msg) {
 		
-		if(!method.isAnnotationPresent(Log.class))
-			return;
+		if(!method.isAnnotationPresent(Log.class)) return;
 		Log methodLog = method.getAnnotation(Log.class);
 		if(isLog(methodLog,level)) {
 			try {

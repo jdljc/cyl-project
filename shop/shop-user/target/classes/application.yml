@@ -13,6 +13,12 @@ spring:
     hibernate:
       ddl-auto: update
     show-sql: true
-  redis:    database: 0
+  redis:
+    host: 127.0.0.1
+    port: 6379
+    database: 1
+    lettuce:      pool:        max-active: 200
+        max-wait: -1
+        max-idle: 20
   jmx:
     enabled: false

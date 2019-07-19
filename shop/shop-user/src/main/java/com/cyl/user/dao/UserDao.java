@@ -17,4 +17,7 @@ public interface UserDao extends BaseDao<User, Long>{
 
 	@Query(value="select u from User u where u.name=:name")
 	User findByName(@Param("name")String name);
+	
+	@Query(value="select u from User u where u.email=:email")
+	User finByEmail(@Param("email")String email);
 }

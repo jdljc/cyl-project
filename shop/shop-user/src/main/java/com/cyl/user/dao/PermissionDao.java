@@ -19,5 +19,7 @@ public interface PermissionDao extends BaseDao<Permission, Integer>{
 
 	@Query(value="select p from User u inner join u.roles r inner join r.permissions p where u.name=:name")
 	List<Permission> findPermissions(@Param("name")String userName);
-
+	
+	@Query(value="select p from Permission p where p.appKey=:key and p.type=:type")
+	List<Permission> getByTypeAndKey(@Param("key")String key,@Param("type")String type);
 }
